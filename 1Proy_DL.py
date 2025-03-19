@@ -11,17 +11,25 @@ def codificar(ruta):
     print(numero)
     convertir_base(numero, 5000)
     return numero
-def convertir_base(numero, base):
+def convertir_base(numero, base): 
     if numero == 0:
         return "0"
     
-    caracteres = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz☺♀♪♫☼►◄↕‼◙♂♪♫☼►1•↕‼¶§▬↨↑↓→←☻◘2345678↔▲()*+,-./019:;<=>?@ÉB♠7DEFGFIJKLMNOPQRS◘♦UVWYZ[\]^_`abcdefghij◙7lm"
-    resultado = deque()  # Usamos deque para evitar concatenaciones costosas
+    caracteres = Unicode(base)
+    resultado = deque()  # Usamos deque para evitar concatenaciones costosas 
     
     while numero:
         numero, residuo = divmod(numero, base)  
         resultado.appendleft(caracteres[residuo])  # Agrega al inicio de la lista
     
+    print(resultado)
     return ''.join(resultado) 
+def Unicode(cantidad):
+    if cantidad > 10000:
+        raise ValueError("La cantidad máxima permitida es 7000 caracteres.")
+    
+    caracteres = [chr(i) for i in range(cantidad)]  # Genera los primeros caracteres Unicode
+    return ''.join(caracteres)
 
 codificar(r"C:\Users\MATEO CARVAJAL\Pictures\chinbaDeImagen.jpg")
+    
