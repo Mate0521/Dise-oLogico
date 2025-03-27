@@ -25,8 +25,11 @@ def convertir_base(numero, base):
     print(resultado)
     return ''.join(resultado) 
 def Unicode(cantidad):
+<<<<<<< HEAD
     if cantidad > 100000:
         raise ValueError("La cantidad máxima permitida es 7000 caracteres.")
+=======
+>>>>>>> origin/main
     
     caracteres = [chr(i) for i in range(cantidad)]  # Genera los primeros caracteres Unicode
     return ''.join(caracteres)
