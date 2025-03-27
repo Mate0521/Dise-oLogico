@@ -7,9 +7,9 @@ def codificar(ruta):
             while (chunk := imagen.read(1024)):  # Leer de 1024 en 1024 bytes
                 print(chunk)
                 for byte in chunk:
-                    numero = (numero * 256) + byte
+                    numero = numero * 256 + byte  # Desplaza 8 bits y suma el byte
     print(numero)
-    convertir_base(numero, 5000)
+    convertir_base(numero, 10000)
     return numero
 def convertir_base(numero, base): 
     if numero == 0:
@@ -25,7 +25,7 @@ def convertir_base(numero, base):
     print(resultado)
     return ''.join(resultado) 
 def Unicode(cantidad):
-    if cantidad > 10000:
+    if cantidad > 100000:
         raise ValueError("La cantidad máxima permitida es 7000 caracteres.")
     
     caracteres = [chr(i) for i in range(cantidad)]  # Genera los primeros caracteres Unicode
