@@ -1,38 +1,43 @@
 from collections import deque
+import os
 
-def codificar(ruta):
-    numero=0
-    with open(ruta, "rb") as imagen:
+def codificar(ruta_imagen, base):
+    # Crear archivo .txt 
+    nombre_txt = os.path.splitext(ruta_imagen)[0] + f"{base}.txt"
+    
+    with open(ruta_imagen, "rb") as archivo_imagen, open(nombre_txt, "w", encoding="utf-8") as archivo_txt:
+        while True:
+            # Leer 4 bytes (32 bits) por bloque
+            chunk = archivo_imagen.read(16)
+            if not chunk:
+                break  # Fin del archivo
+
+            numero = int.from_bytes(chunk, byteorder='big', signed=False)
             
-            while (chunk := imagen.read(1024)):  # Leer de 1024 en 1024 bytes
-                print(chunk)
-                for byte in chunk:
-                    numero = numero * 256 + byte  # Desplaza 8 bits y suma el byte
-    print(numero)
-    convertir_base(numero, 10000)
-    return numero
-def convertir_base(numero, base): 
+            # invocamos el metodo convertir_a_base para convertir el número a la base especificada
+            digitos = convertir_a_base(numero, base)
+            
+            # Escribir los dígitos en el archivo .txt
+            archivo_txt.write(f"{digitos}\n")
+
+def convertir_a_base(numero, base):
     if numero == 0:
         return "0"
     
-    caracteres = Unicode(base)
-    resultado = deque()  # Usamos deque para evitar concatenaciones costosas 
+    caracteres = unicode(base)
+    resultado = deque()
     
-    while numero:
-        numero, residuo = divmod(numero, base)  
-        resultado.appendleft(caracteres[residuo])  # Agrega al inicio de la lista
+    while numero > 0:
+        numero, residuo = divmod(numero, base)
+        resultado.appendleft(caracteres[residuo])
     
-    print(resultado)
-    return ''.join(resultado) 
-def Unicode(cantidad):
-<<<<<<< HEAD
-    if cantidad > 100000:
-        raise ValueError("La cantidad máxima permitida es 7000 caracteres.")
-=======
->>>>>>> origin/main
-    
-    caracteres = [chr(i) for i in range(cantidad)]  # Genera los primeros caracteres Unicode
-    return ''.join(caracteres)
+    return ''.join(resultado)
 
-codificar(r"C:\Users\MATEO CARVAJAL\Pictures\chinbaDeImagen.jpg")
+def unicode(cantidad):
+    # Genera caracteres Unicode hasta el límite especificado
+    return [chr(i) for i in range(min(cantidad, 0x10FFFF + 1))]
+ 
+
+
+codificar(r"C:\Users\MATEO CARVAJAL\Pictures\Kimetsu.webp", 5000)
     
