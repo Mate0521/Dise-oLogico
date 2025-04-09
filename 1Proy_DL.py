@@ -70,21 +70,26 @@ def codificar(ruta_imagen, base, bloque_bytes=16):
     
     return nombre_txt
 
-def decodificar(ruta_txt, base_origen, base_destino=256, bloque_bytes=16):
-    """Decodifica un archivo de texto a bytes en la base destino"""
+def decodificar(ruta_txt, base_origen, bloque_bytes=16, ruta_original=None):
+
     if not os.path.exists(ruta_txt):
-        raise FileNotFoundError(f"No se encontró el archivo: {ruta_txt}")
-    
-    # Extraer nombre base sin extensión
-    nombre_base = os.path.splitext(ruta_txt)[0]
-    if nombre_base.endswith(str(base_origen)):
-        nombre_base = nombre_base[:-len(str(base_origen))]
-    
-    nombre_salida = f"{nombre_base}_decodificado.png"
+        raise FileNotFoundError(f"Archivo no encontrado: {ruta_txt}")
+
+    # 1. Generar los mismos caracteres usados en la codificación
     caracteres_base = unicode_caracteres_seguros(base_origen)
     
+    # 2. Determinar nombre de salida
+    nombre_salida = os.path.splitext(ruta_txt)[0] + "_decodificado.png"
+    
+    # 3. Obtener tamaño original si se especifica
+    tamano_original = None
+    if ruta_original and os.path.exists(ruta_original):
+        tamano_original = os.path.getsize(ruta_original)
+
     with open(ruta_txt, "r", encoding="utf-8") as archivo_txt, \
          open(nombre_salida, "wb") as archivo_salida:
+        
+        bytes_totales = bytearray()
         
         for linea in archivo_txt:
             linea = linea.strip()
@@ -92,12 +97,25 @@ def decodificar(ruta_txt, base_origen, base_destino=256, bloque_bytes=16):
                 continue
             
             try:
-                numero = convertir_de_base(linea, base_origen)
-                bytes_bloque = numero.to_bytes(bloque_bytes, byteorder='big')
-                archivo_salida.write(bytes_bloque)
+                # 4. Convertir cada línea a número
+                numero = 0
+                for caracter in linea:
+                    if caracter not in caracteres_base:
+                        raise ValueError(f"Carácter '{caracter}' no válido")
+                    numero = numero * base_origen + caracteres_base.index(caracter)
+                
+                # 5. Convertir a bytes y acumular
+                bytes_totales.extend(numero.to_bytes(bloque_bytes, 'big'))
+            
             except ValueError as e:
-                print(f"Error procesando línea: {linea} - {str(e)}")
+                print(f"¡Error! Línea corrupta: {linea}\nDetalle: {e}")
                 continue
+        
+        # 6. Truncar a tamaño original si es necesario
+        if tamano_original is not None:
+            bytes_totales = bytes_totales[:tamano_original]
+        
+        archivo_salida.write(bytes_totales)
     
     return nombre_salida
 
@@ -105,7 +123,7 @@ def decodificar(ruta_txt, base_origen, base_destino=256, bloque_bytes=16):
 if __name__ == "__main__":
     try:
         # Codificar
-        archivo_codificado = codificar(r"C:\Users\MATEO CARVAJAL\Pictures\Kimetsu.webp", 2000)
+        archivo_codificado = codificar(r"C:\Users\MATEO CARVAJAL\Pictures\chinbaDeImagen.jpg", 2000)
         print(f"Archivo codificado creado: {archivo_codificado}")
         
         # Decodificar
