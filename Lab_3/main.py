@@ -1,6 +1,7 @@
 z = "(((not (A and B and C) and (A or B)) or (not (not (A and B and C)) and not (A or B))) and (not A or not (B and C))) or (not ((not (A and B and C) and (A or B)) or (not (not (A and B and C)) and not (A or B))) and not (not A or not (B and C)))"
-
 x = "((((A or B) and C and not (A and not B and C)) or (not ((A or B) and C) and (A and not B and C))) and not (not ((A and B) or (C and B)))) or (not (((A or B) and C and not (A and not B and C)) or (not ((A or B) and C) and (A and not B and C))) and not (not ((A and B) or (C and B))))"
+y = "not(((not((not(A and B) or (C and D)) and (A and not B and D)) or ((not(A and B) or (C and D)) and (A and not B and D))) and not(((A and not B and C) and not(B and not C and not D)) or (not(A and not B and C) and (B and not C and not D)))) or (((not(A and B) or (C and D)) and (A and not B and D)) and (((A and not B and C) and not(B and not C and not D)) or (not(A and not B and C) and (B and not C and not D)))))"
+w = "not((((not((A and B and C) or not(C and D and E)) and ((B and C and D) or not(A and C and E))) or (((A and B and C) or not(C and D and E)) and not((B and C and D) or not(A and C and E)))) and not(A and B and C and D and E)) or ((((A and B and C) or not(C and D and E)) and not((B and C and D) or not(A and C and E))) or (not((A and B and C) or not(C and D and E)) and ((B and C and D) or not(A and C and E)))) and not(A and B and C and D and E)))"
 
 from logica.BooleanConverter import BooleanConverter
 from logica.TruthTableGenerator import TruthTableGenerator
@@ -15,9 +16,8 @@ if __name__ == "__main__":
     test_cases = [
         z,
         x,
-        "A xor (B xnor C)",
-        "(A and B) xnor (C xor D)",
-        "A or B",
+        y,
+        w
     ]
     
     for expr in test_cases:
