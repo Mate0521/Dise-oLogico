@@ -41,8 +41,8 @@ public class ProgramaP3DL extends JFrame {
         panelEjemplos.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(COLOR_BORDE_EJEMPLOS, 2),
                 "Ejemplos de Funciones", TitledBorder.LEFT, TitledBorder.TOP));
-        ejemploX = createEjemploLabel("X = !((A || B) && C ^ (A && B && C) ^^ !(A && B || C && B))");
-        ejemploY = createEjemploLabel("Y = !((( !(A && B) || (C && D) ) ^^ (A && B && D)) ^^ ((A && B && C) ^ (B && (!C && D))))");
+        ejemploX = createEjemploLabel("X = !((A || B) && C ^ (A && ! B && C) ^^ !(A && B || C && B))");
+        ejemploY = createEjemploLabel("Y = !((( !(A && B) || (C && D) ) ^^ (A && ! B && D)) ^^ ((A && ! ( B && C ) ) ^ (B && ! ( C && D))))");
         ejemploZ = createEjemploLabel("Z = !(!(A && B && C) ^^ (A || B) ^ (!A || !(B && C)))");
         ejemploW = createEjemploLabel("W = !(((A && B && C) || !( !(C && D && E) )) ^ ((B && C && D) || !(A && C && E)) ^^ ((A && B && D) && !(E && B && C)))");
         panelEjemplos.add(ejemploX);
