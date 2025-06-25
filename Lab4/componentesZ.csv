@@ -1,0 +1,11 @@
+﻿Name,Quantity,Component
+"P1",1,"5 , 5  Power Supply"
+"SW1",1," DIP Switch SPST x 4"
+"R1, R2, R3",3,"1 kΩ Resistor"
+"Uand",1," Quad AND gate"
+"Uxor",1," Quad XOR gate"
+"Uor",1," Quad OR gate"
+"Unot",1," Hex Inverter"
+"D1",1,"Red LED"
+"R4",1,"100 Ω Resistor"
+"Meter1",1,"Voltage Multimeter"
